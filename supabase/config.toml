@@ -1,0 +1,37 @@
+project_id = "fhcscsczogemcbhkardz"
+
+[functions.process-document]
+verify_jwt = false
+
+[functions.delete-project]
+verify_jwt = false
+
+[functions.enrich-client]
+verify_jwt = false
+
+[functions.chunk-document]
+verify_jwt = false
+
+[functions.chunk-start]
+verify_jwt = false
+
+[functions.chunk-worker]
+verify_jwt = false
+
+[functions.vectorize-chunks]
+verify_jwt = false
+
+[functions.generate-summary]
+verify_jwt = false
+
+[functions.vectorize-start]
+verify_jwt = false
+
+[functions.vectorize-worker]
+verify_jwt = false
+
+[functions.queue-worker]
+verify_jwt = false
+
+[functions.python-backend-proxy]
+verify_jwt = false

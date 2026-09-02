@@ -1,0 +1,1 @@
+ALTER TABLE public.document_embeddings ADD CONSTRAINT uq_document_embeddings_doc_chunk UNIQUE (document_id, chunk_index);

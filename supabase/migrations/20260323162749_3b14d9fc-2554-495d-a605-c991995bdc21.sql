@@ -1,0 +1,1 @@
+UPDATE public.document_embeddings SET embedding = NULL;

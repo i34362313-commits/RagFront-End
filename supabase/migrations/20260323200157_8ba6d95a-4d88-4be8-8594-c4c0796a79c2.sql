@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS idx_embeddings_pending_vectorization ON public.document_embeddings (project_id, user_id, document_id, chunk_index) WHERE embedding IS NULL; CREATE INDEX IF NOT EXISTS idx_embeddings_doc_pending ON public.document_embeddings (document_id) WHERE embedding IS NULL;

@@ -1,0 +1,1 @@
+ALTER TABLE public.projects ADD COLUMN storage_folder_path text;
