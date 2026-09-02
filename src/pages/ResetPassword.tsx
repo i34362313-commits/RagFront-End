@@ -18,28 +18,32 @@ export default function ResetPassword() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Listen for the PASSWORD_RECOVERY event
+    const url = new URL(window.location.href);
+    const hashParams = new URLSearchParams(window.location.hash.slice(1));
+    const callbackError = url.searchParams.get('error_description') ?? hashParams.get('error_description');
+
+    if (callbackError) {
+      setError(callbackError);
+      setIsCheckingSession(false);
+      return;
+    }
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'PASSWORD_RECOVERY') {
         setIsRecovery(true);
         setIsCheckingSession(false);
       }
-      // If we get a session (from code exchange or hash), allow password reset
-      if (session && !isRecovery) {
+      if (session) {
         setIsRecovery(true);
         setIsCheckingSession(false);
       }
     });
 
-    // Check hash for recovery type
-    const hash = window.location.hash;
-    if (hash.includes('type=recovery')) {
+    if (hashParams.get('type') === 'recovery') {
       setIsRecovery(true);
       setIsCheckingSession(false);
     }
 
-    // Handle PKCE flow: exchange code from URL query params
-    const url = new URL(window.location.href);
     const code = url.searchParams.get('code');
     if (code) {
       supabase.auth.exchangeCodeForSession(code).then(({ data, error }) => {
@@ -48,8 +52,7 @@ export default function ResetPassword() {
         }
         setIsCheckingSession(false);
       });
-    } else if (!hash.includes('type=recovery')) {
-      // Check if there's already a session (user came from recovery link)
+    } else if (hashParams.get('type') !== 'recovery') {
       supabase.auth.getSession().then(({ data: { session } }) => {
         if (session) {
           setIsRecovery(true);
